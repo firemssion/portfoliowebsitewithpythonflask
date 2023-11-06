@@ -9,7 +9,6 @@
         <title>Jat Sea</title>
 
         <style>
-
             body {
                 display: flex;
                 flex-direction: column;
@@ -37,40 +36,46 @@
                 margin-top: auto;
                 background-color: #008000;
             }
-            
-            textarea {
-                max-width: 500px;
-            }
         </style>
     </head>
 
     <body>
         <nav class="navbar navbar-custom">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Jat Sea's Scratch Page</a>
-                
+                <a class="navbar-brand" href="#" onclick="showPage('home')">Home</a>
+                <a class="navbar-brand" href="#" onclick="showPage('scratch')">Jat Sea's Scratch Page</a>
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <!-- Home page section -->
+        <div id="home" style="display: none;">
+            <!-- Content for the home page goes here -->
+            <p>Welcome to the home page!</p>
+        </div>
 
-            <div class="row">
-                {% for comment in comments %}
-                    <div style="word-wrap: break-word;">
-                    
-                        {{ comment.content }}
-                    </div>    
-                {% endfor %}
+        <!-- Scratch page section -->
+        <div id="scratch">
+            <!-- Existing content for the scratch page goes here -->
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    {% for comment in comments %}
+                        <div style="word-wrap: break-word;"> <!-- Each comment in its own div -->
+                            {{ comment.content }}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-            
-            <div class="row">
-                <form action="." method="POST">
-                    <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
-                    <input type="submit" class="btn btn-success mt-2" value="Post comment">
-                </form>
+
+            <!-- Input form -->
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <form action="." method="POST">
+                        <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
+                        <input type="submit" class="btn btn-success mt-2" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
+                    </form>
+                </div>
             </div>
-            
-        </div><!-- /.container-fluid -->
+        </div>
 
         <footer id="footer" class="footer small text-center text-white-50">
             <div class="container-fluid px-4 px-lg-5">
@@ -83,5 +88,18 @@
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script>
+            function showPage(pageId) {
+                // Hide all sections
+                document.getElementById('home').style.display = 'none';
+                document.getElementById('scratch').style.display = 'none';
+
+                // Show the selected section
+                document.getElementById(pageId).style.display = 'block';
+            }
+
+            // Show the home page by default
+            showPage('home');
+        </script>
     </body>
 </html>
