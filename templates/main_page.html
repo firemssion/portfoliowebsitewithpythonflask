@@ -43,7 +43,7 @@
         <nav class="navbar navbar-custom">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#" onclick="showPage('home')">Home</a>
-                <a class="navbar-brand" href="#" onclick="showPage('scratch')">Jat Sea's Scratch Page</a>
+                <a class="navbar-brand" href="#" onclick="showPage('scratch')">Comment</a>
             </div>
         </nav>
 
@@ -58,21 +58,21 @@
             <!-- Existing content for the scratch page goes here -->
             <div class="row justify-content-center">
                 <div class="col-6">
-                    {% for comment in comments %}
-                        <div style="word-wrap: break-word;"> <!-- Each comment in its own div -->
-                            {{ comment.content }}
-                        </div>
-                    {% endfor %}
+                    <form action="." method="POST">
+                        <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
+                        <input type="submit" class="btn btn-success mt-1" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
+                    </form>
                 </div>
             </div>
 
-            <!-- Input form -->
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <form action="." method="POST">
-                        <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
-                        <input type="submit" class="btn btn-success mt-2" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
-                    </form>
+                    {% for comment in comments %}
+                        <div style="border: 1px solid black; padding: 5px; margin-top: 10px;"> <!-- add border, padding and margin -->
+                            <p>{{ comment.content }}</p>
+
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
