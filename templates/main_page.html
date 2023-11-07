@@ -64,25 +64,32 @@
         <!-- Scratch page section -->
         <div id="scratch">
             <!-- Existing content for the scratch page goes here -->
-            <div class="row justify-content-center">
-            {% if current_user.is_authenticated %}
-                <div class="col-6">
-                    <form action="." method="POST">
-                        <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
-                        <input type="submit" class="btn btn-success mt-1" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
-                    </form>
-                </div>
-            {% endif %}
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-6">
-                    {% for comment in comments %}
-                        <div style="border: 1px solid black; padding: 5px; margin-top: 10px;"> <!-- add border, padding and margin -->
-                            <p>{{ comment.content }}</p>
-
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    {% if current_user.is_authenticated %}
+                        <div class="col-5">
+                            <form action="." method="POST">
+                                <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
+                                <input type="submit" class="btn btn-success mt-1" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
+                            </form>
                         </div>
-                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-5">
+                        {% for comment in comments %}
+                            <div style="border: 1px solid black; padding: 2px; margin-top: 2px;">
+                                <div>
+                                    {{ comment.content }}
+                                </div>
+                                <div>
+                                    <small>Posted {{ timestamp.strftime("%A, %d %B %Y at %H:%M") }} by anonymous</small>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
