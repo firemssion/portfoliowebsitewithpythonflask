@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, UserMixin
+from flask_login import login_user, LoginManager, UserMixin, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
@@ -76,5 +76,11 @@ def login():
         return render_template("login_page.html", error=True)
 
     login_user(user)
+    return redirect(url_for('index'))
+
+@app.route("/logout/")
+@login_required
+def logout():
+    logout_user()
     return redirect(url_for('index'))
 

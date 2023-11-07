@@ -44,6 +44,14 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#" onclick="showPage('home')">Home</a>
                 <a class="navbar-brand" href="#" onclick="showPage('scratch')">Comment</a>
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                        <li><a class="navbar-brand" href="{{ url_for('logout') }}">Log out</a></li>
+                    {% else %}
+                        <li><a class="navbar-brand" href="{{ url_for('login') }}">Log in</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </nav>
 
@@ -57,12 +65,14 @@
         <div id="scratch">
             <!-- Existing content for the scratch page goes here -->
             <div class="row justify-content-center">
+            {% if current_user.is_authenticated %}
                 <div class="col-6">
                     <form action="." method="POST">
                         <textarea class="form-control" name="contents" placeholder="Enter a comment"></textarea>
                         <input type="submit" class="btn btn-success mt-1" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
                     </form>
                 </div>
+            {% endif %}
             </div>
 
             <div class="row justify-content-center">
