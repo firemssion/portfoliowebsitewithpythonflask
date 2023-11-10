@@ -1,0 +1,53 @@
+{%extends "index.html"%}
+{%block content%}
+    <div class="com">
+        <h2 class="mb-5">Comment</h2>
+        <div class="subheading mb-3"></div>
+        <div class="row justify-content-center">
+            <div class="col-5" style="max-height: 500px; overflow-y:scroll;">
+                {% for comment in comments %}
+                    <div style="border: 1px solid black; padding: 2px; margin-top: 2px;">
+                        <div>
+                            {{ comment.content }}
+                        </div>
+                        <div>
+                            <small>
+                                Posted
+                                {% if comment.posted %}
+                                    {{ comment.posted.strftime("%A, %d %B %Y at %H:%M") }}
+                                {% else %}
+                                at an unknown time
+                                {% endif %}
+                                by
+                                {% if comment.commenter %}
+                                    {{ comment.commenter.username }}
+                                {% else %}
+                                    anonymous
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-5">
+                <form action="." method="POST">
+                    <textarea class="form-control" name="contents" placeholder="{% if current_user.is_authenticated %}Enter a comment{% else %}Log in to post{% endif %}" {% if not current_user.is_authenticated %}disabled{% endif %}></textarea>
+                    <input type="submit" class="btn btn-success mt-1" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+{%endblock%}
+
+
+
+
+
+

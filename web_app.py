@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from werkzeug.security import check_password_hash
 from datetime import datetime
@@ -22,7 +22,7 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+
 
 app.secret_key = "letting a cat walk across the keyboard works well"
 login_manager = LoginManager()
@@ -56,18 +56,26 @@ class Comment(db.Model):
     commenter_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     commenter = db.relationship('User', foreign_keys=commenter_id)
 
-@app.route("/", methods=["GET", "POST"])
-def index():
+@app.route('/')
+def about():
+    return render_template('about.html')
+
+@app.route("/skills")
+def skills():
+    return render_template('skills.html')
+
+@app.route("/comment/", methods=["GET", "POST"])
+def com():
     if request.method == "GET":
-        return render_template("main_page.html", comments=Comment.query.all())
+        return render_template("comment.html", comments=Comment.query.all())
 
     if not current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('com'))
 
     comment = Comment(content=request.form["contents"], commenter=current_user)
     db.session.add(comment)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('com'))
 
 @app.route("/login/", methods=["GET", "POST"])
 def login():
@@ -82,11 +90,11 @@ def login():
         return render_template("login_page.html", error=True)
 
     login_user(user)
-    return redirect(url_for('index'))
+    return redirect(url_for('com'))
 
 @app.route("/logout/")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
