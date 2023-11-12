@@ -1,5 +1,22 @@
 {%extends "index.html"%}
 {%block content%}
+    <style>
+        @media (min-width: 992px) {
+            .log {
+                margin-left: 100px;
+                margin-top: -200px;
+            }
+        }
+        @media (max-width: 891px) {
+            .log {
+                margin-left: 0;
+                margin-top: -50px;
+            }
+        }
+        input:focus {
+            border-color: #4CAF50;
+        }
+    </style>
     <div class="log">
         <h2 class="mb-5">Login Page</h2>
         <div class="subheading mb-3"></div>
@@ -20,7 +37,7 @@
                     <label for="password">Password:</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
                   </div>
-                  <button type="submit" class="btn btn-success mt-1">Log in</button>
+                  <button type="submit" class="btn btn-success mt-2">Log in</button>
                 </form>
             </div>
         </div>
