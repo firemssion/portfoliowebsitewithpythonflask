@@ -4,27 +4,24 @@ from flask_login import login_user, current_user, LoginManager, UserMixin, login
 from werkzeug.security import check_password_hash
 import pytz
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
 
-SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-    username="firemission3",
-    password="h2!E9)BZ",
-    hostname="firemission3.mysql.pythonanywhere-services.com",
-    databasename="firemission3$comments",
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
+    username=os.getenv('DB_USERNAME'),
+    password=os.getenv('DB_PASSWORD'),
+    hostname=os.getenv('DB_HOSTNAME'),
+    databasename=os.getenv('DB_NAME'),
 )
 
-
-
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-
-app.secret_key = "letting a cat walk across the keyboard works well"
+app.secret_key = os.getenv('SECRET_KEY')
 login_manager = LoginManager()
 login_manager.init_app(app)
 
