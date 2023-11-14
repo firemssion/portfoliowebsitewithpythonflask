@@ -1,8 +1,8 @@
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from werkzeug.security import check_password_hash
+import pytz
 from datetime import datetime
 
 app = Flask(__name__)
@@ -46,13 +46,15 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.filter_by(username=user_id).first()
 
+singapore = pytz.timezone('Asia/Singapore')
+
 class Comment(db.Model):
 
     __tablename__ = "comments"
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(4096))
-    posted = db.Column(db.DateTime, default=datetime.now)
+    posted = db.Column(db.DateTime, default=datetime.now(singapore))
     commenter_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     commenter = db.relationship('User', foreign_keys=commenter_id)
 
@@ -75,7 +77,7 @@ def awards():
 @app.route("/comment/", methods=["GET", "POST"])
 def com():
     if request.method == "GET":
-        return render_template("comment.html", comments=Comment.query.all())
+        return render_template("comment.html", comments=Comment.query.order_by(Comment.posted.desc()).all())
 
     if not current_user.is_authenticated:
         return redirect(url_for('com'))
