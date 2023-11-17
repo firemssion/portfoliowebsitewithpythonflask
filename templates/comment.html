@@ -1,0 +1,72 @@
+{%extends "index.html"%}
+{%block content%}
+    <style>
+        @media (min-width: 992px) {
+            .com {
+                margin-left: 100px;
+            }
+        }
+        @media (max-width: 891px) {
+            .com {
+                margin-left: 0;
+            }
+        }
+        .comment {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: #095484;
+        }
+    </style>
+    <div class="com">
+        <h2 class="mb-5">Comments</h2>
+        <div class="subheading mb-3"></div>
+        <div class="row justify-content-center">
+            <div class="col-5" style="max-height: 500px; overflow-y:scroll; width: 60%;">
+                {% for comment in comments %}
+                    <div class="comment">
+                        <div>
+                            {{ comment.content }}
+                        </div>
+                        <div>
+                            <small>
+                                Posted
+                                {% if comment.posted %}
+                                    {{ comment.posted.strftime("%A, %d %B %Y at %H:%M") }}
+                                {% else %}
+                                at an unknown time
+                                {% endif %}
+                                by
+                                {% if comment.commenter %}
+                                    {{ comment.commenter.username }}
+                                {% else %}
+                                    anonymous
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-5" style="width: 60%;">
+                <form action="." method="POST">
+                    <textarea class="form-control" name="contents" placeholder="{% if current_user.is_authenticated %}Enter a comment{% else %}Log in to post{% endif %}" {% if not current_user.is_authenticated %}disabled{% endif %}></textarea>
+                    <input type="submit" class="btn btn-success mt-1" value="Post comment"> <!-- Added 'mt-2' for margin at the top -->
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+{%endblock%}
+
+
+
+
+
+
