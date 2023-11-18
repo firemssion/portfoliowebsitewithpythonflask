@@ -589,7 +589,13 @@ progress {
   color: #6c757d;
 }
 .blockquote-footer::before {
-  content: "— ";
+  content: "—";
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .img-fluid {

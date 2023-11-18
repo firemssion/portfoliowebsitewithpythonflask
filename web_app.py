@@ -1,27 +1,29 @@
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from werkzeug.security import check_password_hash
-import pytz
 from datetime import datetime
+import pytz
 import os
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-    username=os.getenv('DB_USERNAME'),
-    password=os.getenv('DB_PASSWORD'),
-    hostname=os.getenv('DB_HOSTNAME'),
-    databasename=os.getenv('DB_NAME'),
+    username=os.getenv("DB_USERNAME"),
+    password=os.getenv("DB_PASSWORD"),
+    hostname=os.getenv("DB_HOSTNAME"),
+    databasename="firemission3$comments",
 )
 
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
-app.secret_key = os.getenv('SECRET_KEY')
+app.secret_key = os.getenv("SECRET_KEY")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
